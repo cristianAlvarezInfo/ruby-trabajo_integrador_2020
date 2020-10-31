@@ -1,9 +1,10 @@
+require 'fileutils'
+require 'tty-editor'
 module RN
   module Commands
     module Notes
       class Create < Dry::CLI::Command
         desc 'Create a note'
-
         argument :title, required: true, desc: 'Title of the note'
         option :book, type: :string, desc: 'Book'
 
@@ -15,7 +16,25 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          warn "TODO: Implementar creación de la nota con título '#{title}' (en el libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if book.nil?
+            book='global'
+          end
+          if(not Helpers.are_book_and_title_valid?(book,title)) #me fijo si se ingreso un cuaderno y una nota correcta
+            return
+          end
+          path_cuaderno=File.join(Helpers::PATH_BASE,book)
+
+          if(not Dir.exist?(path_cuaderno))
+            puts "el cuaderno ingresado no existe"
+            return
+          end
+          path_nota=File.join(path_cuaderno,title + ".rn")
+          if not File.exist?(path_nota)
+            File.new(path_nota,'w')
+            puts "se creo correctamente la nota: #{title},   en el cuaderno:  #{book}"     
+          else
+            puts "ya existe una nota con titulo:  #{title},  en el cuaderno:  #{book}"
+          end
         end
       end
 
@@ -33,7 +52,15 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          warn "TODO: Implementar borrado de la nota con título '#{title}' (del libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if book.nil?
+            book='global'
+          end
+          if(not Helpers.are_book_and_title_valid_and_exist?(book,title))
+            return
+          end
+          path_nota=File.join(Helpers::PATH_BASE,book,title + ".rn")
+          File.delete(path_nota)
+          puts "se elimino la nota: #{title}, del cuaderno: #{book}"
         end
       end
 
@@ -51,7 +78,16 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          warn "TODO: Implementar modificación de la nota con título '#{title}' (del libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+
+          if(book.nil?)
+            book="global"
+          end
+          if(not Helpers.are_book_and_title_valid_and_exist?(book,title)) #me fijo si se ingreso un cuaderno y una nota correcta
+            return
+          end
+          path_note=File.join(Helpers::PATH_BASE,book,title +".rn" )
+          puts "seleccione el editor que mas le guste:"
+          TTY::Editor.open(path_note)
         end
       end
 
@@ -70,7 +106,28 @@ module RN
 
         def call(old_title:, new_title:, **options)
           book = options[:book]
-          warn "TODO: Implementar cambio del título de la nota con título '#{old_title}' hacia '#{new_title}' (del libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if book.nil?
+            book= "global"
+          end 
+          
+          if(not Helpers.are_book_and_title_valid_and_exist?(book,old_title))
+            return
+          end
+        
+          if not Helpers.is_valid?(new_title)
+            puts Helpers::ERROR_MESSAGE
+            return
+          end
+
+          path_book=File.join(Helpers::PATH_BASE,book)
+          new_name_path=File.join(path_book,new_title + ".rn")
+          old_name_path=File.join(path_book,old_title + ".rn")
+          if not File.exist?(new_name_path)
+            FileUtils.mv old_name_path,new_name_path
+            puts "se cambio el nombre de la nota #{old_title} a #{new_title} en el cuaderno #{book}"     
+          else
+            puts "ya existe una nota con titulo:  #{new_title},  en el cuaderno:  #{book}"
+          end
         end
       end
 
@@ -90,7 +147,23 @@ module RN
         def call(**options)
           book = options[:book]
           global = options[:global]
-          warn "TODO: Implementar listado de las notas del libro '#{book}' (global=#{global}).\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+
+          if (book.nil?) && (not global)
+            puts "estas son todas las notas de todos los cuadernos: "
+            Dir.each_child(File.join(Helpers::PATH_BASE)){|book1| Helpers.all_notes_of_book(book1) }
+            return
+          end
+          if global
+            book="global"
+          end
+          if(not Helpers.is_valid?(book))
+            puts Helpers::ERROR_MESSAGE
+            return
+          end
+          if(Dir.exist?(File.join(Helpers::PATH_BASE,book)))
+            puts "estas son todas las notas del cuaderno #{book}"
+            Helpers.all_notes_of_book(book)
+          end
         end
       end
 
@@ -108,7 +181,15 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          warn "TODO: Implementar vista de la nota con título '#{title}' (del libro '#{book}').\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if(book == "")
+            book="global"
+          end
+          if(not Helpers.are_book_and_title_valid_and_exist?(book,title)) #me fijo si se ingreso un cuaderno y una nota correcta
+            return
+          end
+          path_note=File.join(Helpers::PATH_BASE,book,title +".rn" )
+          puts "contenido de la nota:  #{title}"
+          puts File.readlines(path_note)
         end
       end
     end
