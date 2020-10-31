@@ -1,3 +1,5 @@
+
+require 'fileutils'
 module RN
   module Commands
     module Books
@@ -12,13 +14,22 @@ module RN
         ]
 
         def call(name:, **)
-          warn "TODO: Implementar creación del cuaderno de notas con nombre '#{name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if not Helpers.is_valid?(name)
+            puts Helpers::ERROR_MESSAGE
+            return
+          end
+          path=File.join(Helpers::PATH_BASE,name)
+          if not Dir.exist?(path)  
+            Dir.mkdir(path,0700) #crea el archivo, File.join concatena la ruta,0700 son los permisos
+            puts "se creó el cuaderno #{name} correctamente"
+          else
+            puts "ya existe un cuaderno con ese nombre"
+          end
         end
       end
 
       class Delete < Dry::CLI::Command
         desc 'Delete a book'
-
         argument :name, required: false, desc: 'Name of the book'
         option :global, type: :boolean, default: false, desc: 'Operate on the global book'
 
@@ -30,7 +41,24 @@ module RN
 
         def call(name: nil, **options)
           global = options[:global]
-          warn "TODO: Implementar borrado del cuaderno de notas con nombre '#{name}' (global=#{global}).\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if (not name.nil?)&& (not Helpers.is_valid?(name))
+            puts Helpers::ERROR_MESSAGE
+            return
+          end
+          if(global || name == "global")  #se fija si se selecciono la opcion global, si es así se eliminan todos los archivos de la carpeta global
+            Helpers.delete_notes(File.join(Helpers::PATH_BASE,'global'))
+            puts "se eliminaron todas las notas del cuaderno global"
+          elsif not name.nil?
+            path=File.join(Helpers::PATH_BASE,name)
+            if Dir.exist?(path) #verificar si el nombre ingresado es correcto
+              Helpers.delete_notes(path)
+              Dir.delete(path)
+              puts "se elimino correctamente el cuaderno #{name}"
+            else
+              puts "no existe el cuaderno #{name}"
+            end
+
+          end
         end
       end
 
@@ -42,7 +70,7 @@ module RN
         ]
 
         def call(*)
-          warn "TODO: Implementar listado de los cuadernos de notas.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Dir.each_child(Helpers::PATH_BASE){|book| puts book}
         end
       end
 
@@ -59,7 +87,26 @@ module RN
         ]
 
         def call(old_name:, new_name:, **)
-          warn "TODO: Implementar renombrado del cuaderno de notas con nombre '#{old_name}' para que pase a llamarse '#{new_name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if (not Helpers.is_valid?(old_name)) || (not Helpers.is_valid?(new_name))
+            puts Helpers::ERROR_MESSAGE
+            return
+          end
+          if(old_name == "global")  #se fija si se selecciono la opcion global, si es así se eliminan todos los archivos de la carpeta global
+            puts "no se puede cambiar el nombre del cuaderno global"
+            return
+          end
+          old_name_path=File.join(Helpers::PATH_BASE,old_name)
+          new_name_path=File.join(Helpers::PATH_BASE,new_name) 
+          if not Dir.exist?(old_name_path) #verificar si el nombre ingresado es correcto
+            puts "no existe el cuaderno #{old_name}"
+            return
+          end
+          if Dir.exist?(new_name_path)  #verificamos que el nuevo nombre no exista en el cuaderno 
+            puts "ya existe un cuaderno con nombre #{new_name}"
+            return
+          end
+          FileUtils.mv old_name_path,new_name_path
+          puts "se renombro el cuaderno #{old_name} a  #{new_name}"
         end
       end
     end
