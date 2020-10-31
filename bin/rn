@@ -1,6 +1,13 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+#creamos el directorio donde residirán todas las notas
+if(not Dir.exist?(File.join(Dir.home,".my_rns")))
+    Dir.mkdir(File.join(Dir.home,".my_rns"),0700)
+    Dir.mkdir(File.join(Dir.home,".my_rns","global"),0700)
+end
+
+
 # Setup mandatorio de Bundler
 require 'bundler/setup'
 
@@ -14,3 +21,5 @@ require 'rn'
 
 # Ejecuta, utilizando la gema dry-cli, los comandos que permiten utilizar la herramienta
 Dry::CLI.new(RN::Commands).call
+
+
