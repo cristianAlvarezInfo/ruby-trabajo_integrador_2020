@@ -16,9 +16,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          if book.nil?
-            book='global'
-          end
+          book=Helpers.return_book(book)
           if(not Helpers.are_book_and_title_valid?(book,title)) #me fijo si se ingreso un cuaderno y una nota correcta
             return
           end
@@ -30,7 +28,7 @@ module RN
           end
           path_nota=File.join(path_cuaderno,title + ".rn")
           if not File.exist?(path_nota)
-            File.new(path_nota,'w')
+            File.new(path_nota,'w',0700)
             puts "se creo correctamente la nota: #{title},   en el cuaderno:  #{book}"     
           else
             puts "ya existe una nota con titulo:  #{title},  en el cuaderno:  #{book}"
@@ -52,9 +50,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          if book.nil?
-            book='global'
-          end
+          book=Helpers.return_book(book)
           if(not Helpers.are_book_and_title_valid_and_exist?(book,title))
             return
           end
@@ -78,10 +74,7 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-
-          if(book.nil?)
-            book="global"
-          end
+          book=Helpers.return_book(book)
           if(not Helpers.are_book_and_title_valid_and_exist?(book,title)) #me fijo si se ingreso un cuaderno y una nota correcta
             return
           end
@@ -106,10 +99,7 @@ module RN
 
         def call(old_title:, new_title:, **options)
           book = options[:book]
-          if book.nil?
-            book= "global"
-          end 
-          
+          book=Helpers.return_book(book)
           if(not Helpers.are_book_and_title_valid_and_exist?(book,old_title))
             return
           end
@@ -153,9 +143,7 @@ module RN
             Dir.each_child(File.join(Helpers::PATH_BASE)){|book1| Helpers.all_notes_of_book(book1) }
             return
           end
-          if global
-            book="global"
-          end
+          book=Helpers.return_book(book)
           if(not Helpers.is_valid?(book))
             puts Helpers::ERROR_MESSAGE
             return
@@ -181,14 +169,12 @@ module RN
 
         def call(title:, **options)
           book = options[:book]
-          if(book == "")
-            book="global"
-          end
+          book=Helpers.return_book(book)
           if(not Helpers.are_book_and_title_valid_and_exist?(book,title)) #me fijo si se ingreso un cuaderno y una nota correcta
             return
           end
           path_note=File.join(Helpers::PATH_BASE,book,title +".rn" )
-          puts "contenido de la nota:  #{title}"
+          puts "contenido de la nota #{title} del cuaderno #{book}:"
           puts File.readlines(path_note)
         end
       end
