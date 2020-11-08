@@ -1,6 +1,13 @@
 module Helpers
     PATH_BASE=File.join(Dir.home,'.my_rns')
     ERROR_MESSAGE="error un cuaderno o una nota no puede contener en sus nombres los caracteres: /, \\, <, >, \", *, ?, : "
+
+    def self.return_book(book)
+        if(book.nil?)
+            book="global"
+        end 
+        return book
+    end
     
     def self.delete_notes(path)
         #este metodo elimina las notas del cuaderno que se obtiene a partir del path pasado por parámetro
@@ -14,7 +21,7 @@ module Helpers
         (clave=name =~ /[\/|<|>|"|:|*|?|\\|\|]+/).nil?
     end
 
-    def self.are_book_and_title_valid?(book,title)      
+    def self.are_book_and_title_valid?(book,title)     
         if not (is_valid?(title) && is_valid?(book))
             puts Helpers::ERROR_MESSAGE
             return false
@@ -22,7 +29,7 @@ module Helpers
         return true
     end
 
-    def self.are_book_and_title_valid_and_exist?(book,title)
+    def self.are_book_and_title_valid_and_exist?(book,title) 
         if not are_book_and_title_valid?(book,title)
             return false
         end
