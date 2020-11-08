@@ -70,6 +70,7 @@ module RN
         ]
 
         def call(*)
+          puts "Todos los cuadernos que tienes creados son:"
           Dir.each_child(Helpers::PATH_BASE){|book| puts book}
         end
       end
