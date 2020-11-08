@@ -109,3 +109,22 @@ puede requerir algún trabajo adicional de tu parte.
   * `lib/rn/version.rb` define la versión de la herramienta, utilizando [SemVer](https://semver.org/lang/es/).
 * `bin/`: directorio donde reside cualquier archivo ejecutable, siendo el más notorio `rn`
   que se utiliza como punto de entrada para el uso de la herramienta.
+
+
+### Decisiones de diseño
+
+Una de las desiciones tomadas para el diseño del trabajo fue: agrupar en un modulo llamado Helpers, aquellas funciones que son utilizadas en varias clases de los archivos books y notes. Lo que me permite poder usar las funciones pertenecientes a ese modulo sin tener que repetir código en cada clase.
+
+Para la edicion de notas se decidió hacer uso de la gema TTY-Editor con la cual le damos al usuario la oportunidad de seleccionar el editor que le quede mas cómodo de los que tiene disponibles en el equipo que esta ejecutando la aplicación.
+
+Para la creación, eliminación y renombre de Notas se utilizó la clase File
+
+Para la creación, eliminación, renombre y obtención de Notas se utilizó la clase File
+
+Otras de las decisiones de diseño tomadas fue aplicar las retricciones de renombre y eliminacion del cuaderno "global" en el que residiran aquellas notas a las cuales no se le especifiquen cuaderno a la hora de ser creadas.
+
+
+
+
+
+
