@@ -151,6 +151,8 @@ module RN
           if(Dir.exist?(File.join(Helpers::PATH_BASE,book)))
             puts "estas son todas las notas del cuaderno #{book}"
             Helpers.all_notes_of_book(book)
+          else
+            puts "el cuaderno ingresado no existe"
           end
         end
       end
