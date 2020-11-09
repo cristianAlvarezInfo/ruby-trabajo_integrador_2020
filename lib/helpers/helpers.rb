@@ -1,9 +1,9 @@
 module Helpers
     PATH_BASE=File.join(Dir.home,'.my_rns')
-    ERROR_MESSAGE="error un cuaderno o una nota no puede contener en sus nombres los caracteres: /, \\, <, >, \", *, ?, : "
+    ERROR_MESSAGE="error los nombres de un cuaderno o una nota no pueden ser vacios o contener los caracteres: / \\  .  <  >  \"  *  ?  : "
 
     def self.return_book(book)
-        if(book.nil?)
+        if(book.nil? || book =="")
             book="global"
         end 
         return book
@@ -18,7 +18,7 @@ module Helpers
 
     def self.is_valid?(name)
         #esta funcion valida con una ER que el nombre pasado como parametro sea valido para ser un nombre de nota o cuaderno
-        (clave=name =~ /[\/|<|>|"|:|*|?|\\|\|]+/).nil?
+        (clave=name =~ /[\/|<|>|"|:|.|*|?|\\|\|]+/).nil? && (name != "")
     end
 
     def self.are_book_and_title_valid?(book,title)     
