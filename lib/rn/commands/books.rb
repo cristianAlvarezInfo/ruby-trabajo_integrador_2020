@@ -21,7 +21,7 @@ module RN
           path=File.join(Helpers::PATH_BASE,name)
           if not Dir.exist?(path)  
             Dir.mkdir(path,0700) #crea el archivo, File.join concatena la ruta,0700 son los permisos
-            puts "se creó el cuaderno #{name} correctamente"
+            puts "se creo el cuaderno #{name} correctamente"
           else
             puts "ya existe un cuaderno con ese nombre"
           end
