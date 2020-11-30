@@ -48,7 +48,7 @@ module RN
         end
 
         def self.listar_todos_los_cuadernos()
-            return Dir.each_child(PathResolver::PATH_BASE){|book| puts book}
+            return Dir.children(PathResolver::PATH_BASE)
         end
 
         def renombrar_cuaderno(nuevo_nombre)
@@ -105,11 +105,15 @@ module RN
         end
 
         def self.todas_las_notas()
-            Dir.each_child(File.join(PathResolver::PATH_BASE)){|book| Book.new(book).notas }
+            notas=[]
+            Dir.each_child(File.join(PathResolver::PATH_BASE)){|book| notas.concat(Book.new(book).notas) }
+            return notas
         end
         
         def notas()
-            @book.each_child{|note| puts "cuaderno:#{@nombre},  nota: #{note.delete_suffix(".rn")}"}
+            notas=[]
+            @book.each_child{|note| notas.push("cuaderno:#{@nombre},  nota: #{note.delete_suffix(".rn")}")}
+            return notas
         end
 
         def self.exportar_todas_las_notas(path)
