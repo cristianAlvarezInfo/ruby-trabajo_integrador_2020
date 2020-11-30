@@ -116,14 +116,16 @@ module RN
           global = options[:global]
           if (book.nil?) && (not global)
             puts "estas son todas las notas de todos los cuadernos: "
-            Book.todas_las_notas()
-            return
+            notas=Book.todas_las_notas()
+          else
+            book=Validator.return_book(book)
+            error=Book.validar_cuaderno_existe(book)
+            if(error != "") then return puts error end
+            cuaderno=Book.new(book)
+            notas=cuaderno.notas()
+            puts "estas son todas las notas del cuaderno #{cuaderno.nombre}"
           end
-          book=Validator.return_book(book)
-          error=Book.validar_cuaderno_existe(book)
-          if(error != "") then return puts error end
-          cuaderno=Book.new(book)
-          cuaderno.notas()
+          notas.each{|nota| puts nota}
         end
       end
 
