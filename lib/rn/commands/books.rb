@@ -54,7 +54,7 @@ module RN
 
         def call(*)
           puts "Todos los cuadernos que tienes creados son:"
-          puts Book.listar_todos_los_cuadernos()
+          Book.listar_todos_los_cuadernos().each{|book| puts book}
         end
       end
 
