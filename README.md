@@ -113,11 +113,15 @@ puede requerir algún trabajo adicional de tu parte.
 
 ### Decisiones de diseño
 
-Una de las desiciones tomadas para el diseño del trabajo fue: agrupar en un modulo llamado Helpers, aquellas funciones que son utilizadas en varias clases de los archivos books y notes. Lo que me permite poder usar las funciones pertenecientes a ese modulo sin tener que repetir código en cada clase.
+Para el modelo de datos se crearon las clases Note y Book las cuales mantienen la lógica de negocio. Cada clase cuenta con métodos de instancia para trabajar con un elemento específico y métodos de clase que se utilizaran para operar sobre un conjunto de elementos representado por la clase.
+
+
+Una de las desiciones tomadas para el diseño del trabajo fue: agrupar en un modulo llamado validator, aquellas funciones que son utilizadas en varias clases para valdar nombres de cuadernos o notas. Lo que me permite poder usar las funciones pertenecientes a ese modulo sin tener que repetir código de las funciones en cada clase.
 
 Para la edicion de notas se decidió hacer uso de la gema TTY-Editor con la cual le damos al usuario la oportunidad de seleccionar el editor que le quede mas cómodo de los que tiene disponibles en el equipo que esta ejecutando la aplicación.
 
-Para la creación, eliminación y renombre de Notas se utilizó la clase File
+
+Para la creación, eliminación, renombre y obtención de Cuadernos se utilizó la clase Dir
 
 Para la creación, eliminación, renombre y obtención de Notas se utilizó la clase File
 
