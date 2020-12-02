@@ -125,6 +125,8 @@ Para la creación, eliminación, renombre y obtención de Cuadernos se utilizó 
 
 Para la creación, eliminación, renombre y obtención de Notas se utilizó la clase File
 
+Para la exportación de notas se utilizó la gema redcarpet, la cual nos permite a partir de texto markdown generar HTML
+
 Otras de las decisiones de diseño tomadas fue aplicar las retricciones de renombre y eliminacion del cuaderno "global" en el que residiran aquellas notas a las cuales no se le especifiquen cuaderno a la hora de ser creadas.
 
 
