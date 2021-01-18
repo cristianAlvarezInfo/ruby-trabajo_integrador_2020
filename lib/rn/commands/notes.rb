@@ -17,12 +17,10 @@ module RN
         def call(title:, **options)
           book = options[:book]
           book=Validator.return_book(book)
-          error=Book.validar_cuaderno_existe(book)
-          if(error != "") then return puts error end
-          cuaderno=Book.new(book)
+          cuaderno,error=Book.create(book)
+          if(error !='') then return puts error end
           puts cuaderno.agregar_nota(title)
-        end
-    
+        end    
       end
 
       class Delete < Dry::CLI::Command
@@ -40,16 +38,14 @@ module RN
         def call(title:, **options)
           book = options[:book]
           book=Validator.return_book(book)
-          error=Book.validar_cuaderno_existe(book)
-          if(error != "") then return puts error end
-          cuaderno=Book.new(book)
+          cuaderno,error=Book.create(book)
+          if(error !='')then return puts error end
           puts cuaderno.eliminar_nota(title)
         end
       end
 
       class Edit < Dry::CLI::Command
         desc 'Edit the content a note'
-
         argument :title, required: true, desc: 'Title of the note'
         option :book, type: :string, desc: 'Book'
 
@@ -62,9 +58,8 @@ module RN
         def call(title:, **options)
           book = options[:book]
           book=Validator.return_book(book)
-          error=Book.validar_cuaderno_existe(book)
-          if(error != "") then return puts error end
-          cuaderno=Book.new(book)
+          cuaderno,error=Book.create(book)
+          if(error !='')then return puts error end
           nota=cuaderno.obtener_nota(title)
           if nota.class == String then return puts nota end
           puts "Seleccione el editor que mas le guste"
@@ -119,9 +114,8 @@ module RN
             notas=Book.todas_las_notas()
           else
             book=Validator.return_book(book)
-            error=Book.validar_cuaderno_existe(book)
-            if(error != "") then return puts error end
-            cuaderno=Book.new(book)
+            cuaderno,error=Book.create(book)
+            if(error !='') then return puts error end
             notas=cuaderno.notas()
             puts "estas son todas las notas del cuaderno #{cuaderno.nombre}"
           end
@@ -144,9 +138,8 @@ module RN
         def call(title:, **options)
           book = options[:book]
           book=Validator.return_book(book)
-          error=Book.validar_cuaderno_existe(book)
-          if(error != "") then return puts error end
-          cuaderno=Book.new(book)
+          cuaderno,error=Book.create(book)
+          if(error !='') then return puts error end
           nota=cuaderno.obtener_nota(title)
           if nota.class == String then return puts nota end
           puts "el contenido de la nota #{title} es:"
@@ -196,11 +189,9 @@ module RN
           if(global || book.nil?)
             cuaderno=Book.new("global")
           else
-            error=Book.validar_cuaderno_existe(book)
-            if(error != "") then return puts error end
-            cuaderno=Book.new(book)  
+            cuaderno,error=Book.create(book)
+            if(error !='') then return puts error end 
           end
-          
           if(note.nil?)
             puts "se exportaran a .HTML todas las notas del cuaderno #{cuaderno.nombre} en el destino #{path}"
             cuaderno.exportar_notas(path)
