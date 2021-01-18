@@ -34,11 +34,8 @@ module RN
             cuaderno.eliminar_notas()
             puts "se borraron todas las notas del cuaderno global"
           else
-            error=Book.validar_cuaderno_existe(name)
-            if(error != "")
-                return puts error
-            end
-            cuaderno=Book.new(name)
+            cuaderno,error=Book.create(name)
+            if(error !='') then return puts error end
             cuaderno.eliminar_cuaderno()
             puts "se elimino el cuaderno #{name} junto con todas sus notas"
           end
@@ -71,16 +68,10 @@ module RN
         ]
 
         def call(old_name:, new_name:, **)           
-          error=Book.validar_cuaderno_existe(old_name)
-          if(error != "")
-              return puts error
-          end
-          cuaderno=Book.new(old_name)
+          cuaderno,error=Book.create(old_name)
+          if(error !='') then return puts error end
           error= cuaderno.renombrar_cuaderno(new_name)
-          if error != ""
-            puts error
-            return
-          end
+          if (error != "") then return puts error end
           puts "se renombro el cuaderno #{old_name} a  #{new_name}"
         end
       end
