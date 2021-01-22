@@ -1,4 +1,6 @@
 class NotesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_book
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
   # GET /notes
@@ -14,7 +16,7 @@ class NotesController < ApplicationController
 
   # GET /notes/new
   def new
-    @note = Note.new
+    @note = @book.notes.new
   end
 
   # GET /notes/1/edit
@@ -25,10 +27,10 @@ class NotesController < ApplicationController
   # POST /notes.json
   def create
     @note = Note.new(note_params)
-
+    @note.book= @book
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: 'Note was successfully created.' }
+        format.html { redirect_to book_notes_path, notice: 'Note was successfully created.' }
         format.json { render :show, status: :created, location: @note }
       else
         format.html { render :new }
@@ -42,7 +44,7 @@ class NotesController < ApplicationController
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to @note, notice: 'Note was successfully updated.' }
+        format.html { redirect_to book_notes_path, notice: 'Note was successfully updated.' }
         format.json { render :show, status: :ok, location: @note }
       else
         format.html { render :edit }
@@ -56,12 +58,16 @@ class NotesController < ApplicationController
   def destroy
     @note.destroy
     respond_to do |format|
-      format.html { redirect_to notes_url, notice: 'Note was successfully destroyed.' }
+      format.html { redirect_to book_notes_path, notice: 'Note was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+    def set_book
+      @book = Book.find(params[:book_id])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_note
       @note = Note.find(params[:id])
