@@ -1,12 +1,12 @@
 class NotesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_book
-  before_action :set_note, only: [:show, :edit, :update, :destroy]
+  before_action :set_book ,except: [:export]
+  before_action :set_note, only: [:show, :edit, :update, :destroy,:export]
 
   # GET /notes
   # GET /notes.json
   def index
-    @notes = Note.all
+    @notes = @book.notes
   end
 
   # GET /notes/1
@@ -23,6 +23,8 @@ class NotesController < ApplicationController
   def edit
   end
 
+  def export
+  end
   # POST /notes
   # POST /notes.json
   def create
