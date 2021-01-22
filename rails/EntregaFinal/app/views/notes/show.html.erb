@@ -12,8 +12,10 @@
 
 <p>
   <strong>Book:</strong>
-  <%= @note.book_id %>
+  <%= @book.title %>
 </p>
 
 <%= link_to 'Edit', edit_book_note_path(@note) %> |
-<%= link_to 'Back', book_notes_path %>
+<%= link_to 'Back', book_notes_path %> | 
+<%= link_to 'Export', export_path(@note) %>
+
