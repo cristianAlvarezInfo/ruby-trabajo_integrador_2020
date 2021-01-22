@@ -6,4 +6,8 @@ class Note < ApplicationRecord
   def to_s 
     title
   end
+
+  def markdown
+   Markdown.new(content).to_html
+  end
 end
