@@ -11,7 +11,9 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
+  <% if user_signed_in? then %>   
+    <%= link_to "log out" ,destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %> 
     <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
