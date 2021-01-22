@@ -15,6 +15,7 @@
       <tr>
         <td><%= note.title %></td>
         <td><%= link_to 'Show', [@book,note] %></td>
+        <td><%= link_to 'Export', export_path(note) %></td>
         <td><%= link_to 'Edit', edit_book_note_path(@book,note) %></td>
         <td><%= link_to 'Destroy', [@book,note], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
