@@ -5,9 +5,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  after_create :create_book
+  after_create :create_global_book
 
-  def create_book(title='global')
-    books.create title: title
+  def create_global_book
+    books.create title: 'global'
   end
 end
