@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Books</h1>
-
+<%=current_user.global_book%>
 <table>
   <thead>
     <tr>
@@ -20,11 +20,16 @@
         <td><%= link_to 'Edit', edit_book_path(book) %></td>
         <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <td><%= link_to 'Notes', book_notes_path(book) %></td>
+        <td><%= link_to 'New Note', new_book_note_path(book) %> </td>
+        <td><%= link_to 'Export notes', export_notes_of_book_path(book) %></td>
+        
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
 
-<%= link_to 'New Book', new_book_path %>
+
+<%= link_to 'New Note', new_book_note_path(current_user.global_book) %> |
+<%= link_to 'Export all notes', export_all_notes_path() %> |
+<%= link_to 'New Book', new_book_path %> 

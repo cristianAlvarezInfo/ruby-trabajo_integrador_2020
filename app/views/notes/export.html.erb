@@ -1,4 +1,6 @@
 <p>
+<h4>Note: <%= if (not @note) then @note = id end;@note%></h4>
     <%= raw @note.markdown %>
-    <%= link_to 'Exit', books_path %> 
+    <%= @note= nil %>
+    <HR>
 </p>

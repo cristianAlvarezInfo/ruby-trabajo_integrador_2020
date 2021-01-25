@@ -10,4 +10,9 @@ class User < ApplicationRecord
   def create_global_book
     books.create title: 'global'
   end
+
+  def global_book 
+    return books.where(title: 'global').first
+  end
+
 end

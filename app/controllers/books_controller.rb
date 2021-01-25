@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :set_user
   before_action :authenticate_user!
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :export_notes]
 
   # GET /books
   # GET /books.json
@@ -21,6 +21,12 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
+  end
+
+  def export_notes
+  end
+
+  def export_all_notes_of_current_user
   end
 
   # POST /books

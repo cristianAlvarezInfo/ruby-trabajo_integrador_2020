@@ -8,5 +8,6 @@
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %> | 
-<%= link_to 'Notes', book_notes_path(@book) %>
+<%= link_to 'Notes', book_notes_path(@book) %> | 
+<%= link_to 'Export notes', export_notes_of_book_path(@book) %>
 

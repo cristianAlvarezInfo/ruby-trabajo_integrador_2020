@@ -1,0 +1,10 @@
+
+
+<p>
+<h2>Exported notes of book : <%= if (not @book) then @book = id end; @book %> </h2>
+
+<% @book.notes.each do |note| %>
+    <%=render template: 'notes/export', :locals => {id: note} %>
+<% end %>
+<%= @book = nil%>
+</p>
