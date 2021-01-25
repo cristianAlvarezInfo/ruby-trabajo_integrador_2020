@@ -2,7 +2,9 @@
 
 ## configuracion inicial
 una vez que se descargue el repositorio debe ejecutar los siguientes comandos:
+
 `rails db:migrate`
+
 `rails webpacker:install`
 
 ## Uso de `rn`
