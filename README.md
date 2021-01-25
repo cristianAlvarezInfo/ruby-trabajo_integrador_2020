@@ -1,6 +1,11 @@
 
-## Uso de `rn`
 
+## configuracion inicial
+una vez que se descargue el repositorio debe ejecutar los siguientes comandos:
+`rails db:migrate`
+`rails webpacker:install`
+
+## Uso de `rn`
 Para poner en funcionamiento la aplicación, debe ejecutarse el siguiente comando en el directorio raíz del proyecto:
 `rails server`
 
