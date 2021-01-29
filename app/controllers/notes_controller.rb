@@ -3,6 +3,7 @@ class NotesController < ApplicationController
   before_action :set_book ,except: [:export]
   before_action :set_note, only: [:show, :edit, :update, :destroy,:export]
 
+
   # GET /notes
   # GET /notes.json
   def index
@@ -67,16 +68,24 @@ class NotesController < ApplicationController
 
   private
     def set_book
-      @book = Book.find(params[:book_id])
+      @book=ApplicationHelper::return_book(current_user,params[:book_id])
     end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_note
-      @note = Note.find(params[:id])
+      begin
+        @note = Note.find(params[:id])
+        if @note.book.user_id != current_user.id then raise  end
+
+      rescue
+        raise ActionController::RoutingError.new('Not Found')
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def note_params
       params.require(:note).permit(:title, :content, :book_id)
     end
+
+  
 end
