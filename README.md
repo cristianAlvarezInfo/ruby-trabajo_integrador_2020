@@ -3,6 +3,8 @@
 ## configuracion inicial
 una vez que se descargue el repositorio debe ejecutar los siguientes comandos:
 
+`bundle install`
+
 `rails db:migrate`
 
 `rails webpacker:install`
