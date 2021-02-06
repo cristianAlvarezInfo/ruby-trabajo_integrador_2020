@@ -74,9 +74,8 @@ class NotesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_note
       begin
-        @note = Note.find(params[:id])
+        if @book then @note = @book.notes.find(params[:id]) else @note = Note.find(params[:id]) end
         if @note.book.user_id != current_user.id then raise  end
-
       rescue
         raise ActionController::RoutingError.new('Not Found')
       end
