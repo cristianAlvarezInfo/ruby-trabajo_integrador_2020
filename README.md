@@ -1,4 +1,8 @@
+## Dependencias 
 
+`Ruby 2.7.1`
+
+`Rails ~> 6.1.1`
 
 ## configuracion inicial
 una vez que se descargue el repositorio debe ejecutar los siguientes comandos:
@@ -13,8 +17,6 @@ una vez que se descargue el repositorio debe ejecutar los siguientes comandos:
 Para poner en funcionamiento la aplicación, debe ejecutarse el siguiente comando en el directorio raíz del proyecto:
 `rails server`
 
-> Notá que para la ejecución de la herramienta, es necesario tener una versión reciente de
-> Ruby (2.5 o posterior)
 
 Una vez que tenga corriendo el servido podra acceder Ruby Notes, donde lo primero que deberá hacer es crearse una cuenta, al momento que se crea la cuenta, tambien se le creará un cuaderno `global` (este cuaderno no puede eliminarse, ni modificarse). 
 Al iniciar sesión, será redirigido al listado de sus libros, donde inicialmente solo contará con el cuaderno `global`, desde esta vista podra:  crear nuevos cuadernos, agregar notas al cuaderno que quiera, exportar notas a HTML (pueden ser las notas de un cuaderno, o todas las notas de todos los cuadernos) y acceder al listado de notas de un cuaderno determinado. 
